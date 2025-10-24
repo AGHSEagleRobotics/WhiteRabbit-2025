@@ -4,12 +4,26 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveTrainConstants;
 
-public class ExampleSubsystem extends SubsystemBase {
+public class DriveTrainSubsystem extends SubsystemBase {
+  private final Talon m_driveTrainLeftFront = new Talon(DriveTrainConstants.kLeftFrontChannel);
+  private final Talon m_driveTrainLeftRear = new Talon(DriveTrainConstants.kLeftFrontChannel);
+  private final Talon m_driveTrainRightFront = new Talon(DriveTrainConstants.kLeftFrontChannel);
+  private final Talon m_driveTrainRightRear = new Talon(DriveTrainConstants.kLeftFrontChannel);
+  private final DifferentialDrive m_driveTrain; 
+  
   /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {}
+  public DriveTrainSubsystem() {
+    m_driveTrainLeftFront.addFollower(m_driveTrainLeftRear);
+    m_driveTrainRightFront.addFollower(m_driveTrainRightRear);
+
+    m_driveTrain = new DifferentialDrive(m_driveTrainLeftFront, m_driveTrainRightFront);
+  }
 
   /**
    * Example command factory method.
