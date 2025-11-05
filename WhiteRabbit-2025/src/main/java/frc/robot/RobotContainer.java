@@ -6,8 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+// import frc.robot.commands.Autos;
+import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,19 +26,27 @@ public class RobotContainer {
  
   
   private final DriveTrainSubsystem m_driveTrainSubsystem;
-
+  private final DriveTrainCommand m_driveTrainCommand;
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-   
     m_driveTrainSubsystem = new DriveTrainSubsystem();
 
+    m_driveTrainCommand = new DriveTrainCommand(
+        m_driveTrainSubsystem,
+        m_driverController::getLeftY,
+        m_driverController::getRightY);
+    };
+
+
     // Configure the trigger bindings
-    configureBindings();
-  }
+    void configureBindings(){
+      
+    };
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -49,23 +57,23 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+  // private void configureBindings() {
+  //   // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+  //   new Trigger(m_exampleSubsystem::exampleCondition)
+  //       .onTrue(new DriveTrainCommand(m_exampleSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
+  //   // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+  //   // cancelling on release.
+  //   m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+  // }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+  // /**
+  //  * Use this to pass the autonomous command to the main {@link Robot} class.
+  //  *
+  //  * @return the command to run in autonomous
+  //  */
+  // public Command getAutonomousCommand() {
+  //   // An example command will be run in autonomous
+  //   return Autos.exampleAuto(m_exampleSubsystem);
+  // }
 }
