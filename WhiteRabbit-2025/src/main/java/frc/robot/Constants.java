@@ -18,9 +18,9 @@ public final class Constants {
   }
 
   public static class DriveTrainConstants {
-    public static final int kLeftFrontChannel = 6;
+    public static final int kLeftFrontChannel = 0;
     public static final int kLeftRearChannel = 7;
-    public static final int kRightFrontChannel = 9;
+    public static final int kRightFrontChannel = 1;
     public static final int kRightRearChannel = 8;
   }
   

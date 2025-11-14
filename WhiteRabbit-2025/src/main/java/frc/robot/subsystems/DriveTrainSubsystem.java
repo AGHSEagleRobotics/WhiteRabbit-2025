@@ -23,7 +23,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     // m_driveTrainRightFront.addFollower(m_driveTrainRightRear);
 
-// m_driveTrainRightFront.setInverted(true); <-- Use in case motors move in opposite directions
+m_driveTrainRightFront.setInverted(true);
+// <-- Use in case motors move in opposite directions
 
     m_driveTrain = new DifferentialDrive(m_driveTrainLeftFront, m_driveTrainRightFront);
   }

@@ -39,7 +39,9 @@ public class RobotContainer {
         m_driveTrainSubsystem,
         m_driverController::getLeftY,
         m_driverController::getRightY);
-    };
+
+    m_driveTrainSubsystem.setDefaultCommand(m_driveTrainCommand);
+  }
 
 
     // Configure the trigger bindings
