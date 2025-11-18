@@ -4,15 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OperatorConstants;
 // import frc.robot.commands.Autos;
-import frc.robot.commands.DriveTrainCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.drive.DriveIO;
+import frc.robot.subsystems.drive.DriveIOReal;
+import frc.robot.subsystems.drive.DriveIOSim;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /**
@@ -23,24 +23,30 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
- 
-  
+
   private final DriveTrainSubsystem m_driveTrainSubsystem;
-  private final DriveTrainCommand m_driveTrainCommand;
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandPS4Controller m_ps4DriverController = new CommandPS4Controller(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_driveTrainSubsystem = new DriveTrainSubsystem();
+    // Select the appropriate IO implementation based on whether we're running in simulation
+    DriveIO driveIO;
+    if (RobotBase.isReal()) {
+      // Real robot - use actual hardware
+      driveIO = new DriveIOReal();
+    } else {
+      // Simulation - use physics simulation
+      driveIO = new DriveIOSim();
+    }
 
-    m_driveTrainCommand = new DriveTrainCommand(
-        m_driveTrainSubsystem,
-        m_driverController::getLeftY,
-        m_driverController::getRightY);
+    // Create subsystem with the selected IO implementation
+    m_driveTrainSubsystem = new DriveTrainSubsystem(driveIO);
 
-    m_driveTrainSubsystem.setDefaultCommand(m_driveTrainCommand);
+    // Set as default command
+    m_driveTrainSubsystem.setDefaultCommand(m_driveTrainSubsystem.drive(m_ps4DriverController::getLeftY, m_ps4DriverController::getRightY));
   }
 
 

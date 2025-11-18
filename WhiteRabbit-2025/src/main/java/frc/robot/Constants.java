@@ -18,10 +18,37 @@ public final class Constants {
   }
 
   public static class DriveTrainConstants {
+    // Motor controller PWM channels
     public static final int kLeftFrontChannel = 0;
     public static final int kLeftRearChannel = 7;
     public static final int kRightFrontChannel = 1;
     public static final int kRightRearChannel = 8;
+
+    // Encoder DIO channels
+    public static final int kLeftEncoderChannelA = 0;
+    public static final int kLeftEncoderChannelB = 1;
+    public static final boolean kLeftEncoderReversed = false;
+    public static final int kRightEncoderChannelA = 2;
+    public static final int kRightEncoderChannelB = 3;
+    public static final boolean kRightEncoderReversed = true;
+
+    // Gyroscope analog channel
+    public static final int kGyroChannel = 0;
+
+    // Physical robot parameters (ADJUST THESE FOR YOUR ROBOT!)
+    public static final double kWheelRadiusMeters = 0.0762; // 3 inches in meters
+    public static final double kTrackWidthMeters = 0.6096; // 24 inches in meters
+    public static final int kEncoderPPR = 360; // Pulses per revolution (adjust for your encoder)
+    public static final double kGearRatio = 10.71; // Motor rotations per wheel rotation (adjust for your gearbox)
+
+    // Calculate distance per encoder pulse
+    public static final double kEncoderDistancePerPulse =
+        (2 * Math.PI * kWheelRadiusMeters) / (kEncoderPPR * kGearRatio);
+
+    // Robot mass and moment of inertia (for simulation)
+    public static final double kRobotMassKg = 27.0; // ~60 lbs
+    public static final double kRobotMomentOfInertia = 7.5; // kg*m^2
+    public static final int kMotorsPerSide = 1; // Number of motors per side (2 for CIM, 1 for NEO, etc.)
   }
   
 }
